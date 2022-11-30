@@ -7,7 +7,7 @@ import { trpc } from "../utils/trpc";
 
 const Home: NextPage = () => {
 	const hello = trpc.example.hello.useQuery({ text: "from tRPC" });
-	//const { data } = trpc.example.getHappyPeople.useQuery();
+
 	const { data } = trpc.example.getTechs.useQuery();
 
 	return (
