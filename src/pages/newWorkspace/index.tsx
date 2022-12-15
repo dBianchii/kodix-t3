@@ -9,7 +9,6 @@ import { trpc } from "../../utils/trpc"
 const WorkspacesTable = () => {
 
 	const result = trpc.workspace.getAll.useQuery()
-	
 		
 	return (
 
