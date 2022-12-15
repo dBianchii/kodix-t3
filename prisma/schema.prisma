@@ -14,20 +14,11 @@ datasource db {
 }
 
 model Workspace {
-    id            String          @id @default(cuid())
-    name          String
-    createdAt     DateTime        @default(now())
-    updatedAt     DateTime        @updatedAt
-    UserWorkspace UserWorkspace[]
-}
-
-model UserWorkspace {
-    user        User      @relation(fields: [userId], references: [id])
-    userId      String
-    workspace   Workspace @relation(fields: [workspaceId], references: [id])
-    workspaceId String
-
-    @@id([userId, workspaceId])
+    id        String   @id @default(cuid())
+    name      String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    users     User[]
 }
 
 model Technology {
@@ -63,14 +54,14 @@ model Session {
 }
 
 model User {
-    id            String          @id @default(cuid())
+    id            String      @id @default(cuid())
     name          String?
-    email         String?         @unique
+    email         String?     @unique
     emailVerified DateTime?
     image         String?
     accounts      Account[]
     sessions      Session[]
-    UserWorkspace UserWorkspace[]
+    workspaces    Workspace[]
 }
 
 model VerificationToken {

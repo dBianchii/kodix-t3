@@ -1,17 +1,23 @@
+import type { Session } from "next-auth";
 import { useSession } from "next-auth/react"
-import Link from "next/link";
-import { type NextPage } from "next/types"
 import { useState } from "react";
 import { trpc } from "../../utils/trpc"
 
 
+interface SessionProps {
+  session: Session | null,
+}
 
-const WorkspacesTable = () => {
+const WorkspacesTable = ({session}: SessionProps) => {
 
-	const result = trpc.workspace.getAll.useQuery()
+	if (!session?.user?.id){
+		return <></>
+	}
+	const result = trpc.workspace.getAll.useQuery({
+		userId: session?.user?.id
+	})
 		
 	return (
-
 		<table className="table-auto mt-4">
 			<thead>
 				<tr>
@@ -31,18 +37,13 @@ const WorkspacesTable = () => {
 						<div className="alert-del"></div>
 					</tr>
 				))
-				
 				}
 			</tbody>
 		</table>
 	)
-			
-		
-	
 }
 
-
-const CreateWorkspace = () => {
+const CreateWorkspace: React.FC = () => {
 	const { data: session } = useSession();
 
 	const [workspaceName, setWorkspaceName] = useState("");
@@ -64,6 +65,13 @@ const CreateWorkspace = () => {
 		})
 	}
 
+	if (!session){
+		return <div>
+			<p>Please login</p>
+		</div>
+		
+
+	}
 	return (
 		<div className="w-full max-w-xs">
   			<form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
@@ -77,13 +85,9 @@ const CreateWorkspace = () => {
   			  	<button onClick={createWorkspace} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
 					Create
 				</button>
-				<WorkspacesTable/>
+				<WorkspacesTable {...{ session} }/>
   			</form>
-  			
-			
 		</div>
-		
-		
 	)
 }
 
