@@ -2,7 +2,7 @@ import { z } from "zod";
 import { router, publicProcedure, protectedProcedure } from "../trpc";
 
 export const workspaceRouter = router({
-	getAll: publicProcedure
+	getAll: protectedProcedure
 	.input(z.object({ userId: z.string().cuid() }).nullish())
 	.query(async ({ ctx, input }) => {
 		
