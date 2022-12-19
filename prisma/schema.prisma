@@ -14,11 +14,33 @@ datasource db {
 }
 
 model Workspace {
-    id        String   @id @default(cuid())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-    users     User[]
+    id         String   @id @default(cuid())
+    name       String
+    createdAt  DateTime @default(now())
+    updatedAt  DateTime @updatedAt
+    users      User[]
+    activeApps App[]
+}
+
+model App {
+    id               String      @id @default(cuid())
+    name             String
+    description      String
+    createdAt        DateTime    @default(now())
+    updatedAt        DateTime    @updatedAt
+    subscriptionCost Decimal
+    activeWorkspaces Workspace[]
+    idpartnerDev     DevPartner  @relation(fields: [devPartnerId], references: [id])
+    devPartnerId     String
+}
+
+model DevPartner {
+    id         String   @id @default(cuid())
+    name       String
+    partnerUrl String?
+    createdAt  DateTime @default(now())
+    updatedAt  DateTime @updatedAt
+    App        App[]
 }
 
 model Technology {
