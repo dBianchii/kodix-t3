@@ -4,7 +4,6 @@ import { SessionProvider } from "next-auth/react";
 import Layout from "../components/Layout";
 import { trpc } from "../utils/trpc";
 import React from "react";
-import { routesLayoutNotNeeded } from "./layoutNotNeeded";
 
 import "../styles/globals.css";
 
@@ -12,6 +11,8 @@ const MyApp: AppType<{ session: Session | null }> = ({
   Component,
   pageProps: { session, ...pageProps }, ...appProps
 }) => {
+	const routesLayoutNotNeeded = ['/signIn', '/newUser'] 
+
 	const isLayoutNotNeeded = !routesLayoutNotNeeded.includes(appProps.router.pathname);
     const LayoutComponent = isLayoutNotNeeded ? Layout : React.Fragment;
   	return (

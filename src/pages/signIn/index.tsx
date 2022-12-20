@@ -2,7 +2,6 @@ import { signIn, getProviders, type LiteralUnion, type ClientSafeProvider, useSe
 import type { BuiltInProviderType } from "next-auth/providers";
 import { FcGoogle } from 'react-icons/fc';
 import { type FC, useEffect, useState } from "react";
-import Image from "next/image";
 
 const Login: FC = () => {	
 

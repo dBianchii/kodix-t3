@@ -1,5 +1,4 @@
-import { App } from "@prisma/client"
-import { useSession } from "next-auth/react"
+import type { App } from "@prisma/client"
 import { type NextPage } from "next/types"
 import AppComponent from "../../components/App/App"
 import { trpc } from "../../utils/trpc"
