@@ -14,7 +14,7 @@ const profilePic = [
   {
     name: 'Your workspaces',
     description: 'Create, and manage your workspaces',
-    href: '/newWorkspace',
+    href: '/workspaces',
     icon: BriefcaseIcon,
   }
 ]
@@ -51,7 +51,12 @@ export default function Example() {
 					<Popover.Group as="nav" className="hidden space-x-10 md:flex">
 						<Link href="/marketplace" className="text-base font-medium text-gray-200 hover:text-gray-300">
       	        			Marketplace
-      	      		</Link>
+      	      			</Link>
+						{ session && (
+							<Link href="/apps" className="text-base font-medium text-gray-200 hover:text-gray-300">
+      	        				Apps
+      	      				</Link>
+						)}
 					</Popover.Group>
       	    		<div className="hidden items-center justify-end md:flex md:flex-1 lg:w-0">
 					{
@@ -94,14 +99,13 @@ export default function Example() {
 													<div className="space-y-6 bg-gray-700 px-5 py-5 sm:flex sm:space-y-0 sm:space-x-10 sm:px-8">
 													{callsToActionProfilePic.map((item) => (
 														<div key={item.name} className="flow-root">
-															<a
-																href={item.href}
+															<button
 																className="-m-3 flex items-center rounded-md p-3 text-base font-medium text-gray-900 hover:bg-gray-600"
 																onClick={() => signOut()}
 															>
 																<item.icon className="h-6 w-6 flex-shrink-0 text-white" aria-hidden="true" />
 																<span className="ml-3 text-white">{item.name}</span>
-															</a>
+															</button>
 														</div>
 													))}
 													</div>

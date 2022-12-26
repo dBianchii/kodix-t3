@@ -1,19 +1,46 @@
-import { z } from "zod";
+import { Workspace } from "@prisma/client";
+import { string, z } from "zod";
+import { trpc } from "../../../utils/trpc";
 
-import { router, publicProcedure } from "../trpc";
+import { router, publicProcedure, protectedProcedure } from "../trpc";
 
 export const userRouter = router({
 	getAll: publicProcedure
-		.input(z.object({ userId: z.string().cuid() }).nullish())
+		.query(async ({ ctx }) => {
+
+		const user = await ctx.prisma.user.findMany()
+		if (!user)
+			throw new Error("No Users Found");
+			
+		return user
+	}),
+	getOne: protectedProcedure
+		.input(z.object({ userId: z.string().cuid() }))
 		.query(async ({ ctx,input }) => {
 
-		if (!input)
-			return await ctx.prisma.user.findMany();
-
-		return await ctx.prisma.user.findUnique({
+		const user = await ctx.prisma.user.findUnique({
 			where: {
 				id: input.userId
 			}
 		})
+		if (!user)
+			throw new Error("No User Found");
+
+		return user
 	}),
+	switchActiveWorkspace: protectedProcedure
+		.input(z.object({ workspaceId: string().cuid() }))
+		.mutation(async ({ ctx, input }) => {
+
+			return await ctx.prisma.user.update({
+				where: {
+					id: ctx.session.user.id
+				},
+				data: {
+					activeWorkspaceId: input.workspaceId
+				}
+			})
+		}
+	),
+		
 });

@@ -10,9 +10,16 @@ import { prisma } from "../../../server/db/client";
 export const authOptions: NextAuthOptions = {
 	// Include user.id on session
 	callbacks: {
-		session({ session, user }) {
-			if (session.user) {
+		async session({ session, user }) {
+			const userObj = await prisma.user.findUnique({
+				where: {
+					id: user.id
+				}
+			})
+		
+			if (session.user && userObj?.activeWorkspaceId) {
 				session.user.id = user.id;
+				session.user.activeWorkspaceId = userObj?.activeWorkspaceId
 			}
 			return session;
 		},

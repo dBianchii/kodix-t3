@@ -3,11 +3,9 @@ import { type NextPage } from "next/types"
 import AppComponent from "../../components/App/App"
 import { trpc } from "../../utils/trpc"
 
-
-
-const Marketplace: NextPage = () => {
+const Apps: NextPage = () => {
 	
-	const data = trpc.app.getAll.useQuery()
+	const data = trpc.app.getInstalledApps.useQuery()
 	if (data.isLoading){
 		return <div>Loading...</div>
 	}
@@ -21,7 +19,7 @@ const Marketplace: NextPage = () => {
 			<div className="mx-10 my-4">
 				{data.data.map((app: App) =>(
 					<div key={app.id}>
-						<AppComponent appName={app.name} appDescription={app.description}/>
+						<AppComponent appName={app.name} appDescription={app.description} installed={true}/>
 					</div>
 				))}
 			</div>
@@ -29,4 +27,4 @@ const Marketplace: NextPage = () => {
 	)
 }
 
-export default Marketplace
+export default Apps

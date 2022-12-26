@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { trpc } from "../../../utils/trpc";
 import { router, protectedProcedure } from "../trpc";
 
 export const workspaceRouter = router({

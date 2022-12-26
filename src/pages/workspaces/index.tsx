@@ -13,10 +13,23 @@ const WorkspacesTable = ({session}: SessionProps) => {
 	if (!session?.user?.id){
 		return <></>
 	}
+	
 	const result = trpc.workspace.getAll.useQuery({
 		userId: session?.user?.id
 	})
-		
+
+	function handleSwitchWorkspace(workspaceId: string) {
+		const mutation = trpc.user.switchActiveWorkspace.useMutation()
+
+		if (session?.user?.id)
+			mutation.mutate({ workspaceId: workspaceId })
+	}
+	
+	const {data} = trpc.user.getOne.useQuery({userId: session.user.id})
+
+	if (!data)
+		return null
+	
 	return (
 		<table className="table-auto mt-4">
 			<thead>
@@ -32,9 +45,14 @@ const WorkspacesTable = ({session}: SessionProps) => {
 					</tr>
 					:
 				result.data?.map((workspace) => (
-					<tr key={workspace.id}>
-						<td>{workspace.name}</td>
-						<div className="alert-del"></div>
+					
+
+					<tr key={workspace.id} className={workspace.id == data.activeWorkspaceId ? "border-b border-green-500" : ""}>
+						<td>
+							<div className="alert-del">{workspace.name} <button onClick={() => handleSwitchWorkspace(workspace.id)}>{workspace.id == data.activeWorkspaceId ? "X" : "--"}</button></div>
+				
+						</td>
+						
 					</tr>
 				))
 				}
@@ -43,9 +61,9 @@ const WorkspacesTable = ({session}: SessionProps) => {
 	)
 }
 
-const CreateWorkspace: React.FC = () => {
+const Workspaces: React.FC = () => {
 	const { data: session } = useSession();
-
+	
 	const [workspaceName, setWorkspaceName] = useState("");
 
 	const ctx = trpc.useContext()
@@ -69,9 +87,9 @@ const CreateWorkspace: React.FC = () => {
 		return <div>
 			<p>Please login</p>
 		</div>
-		
-
 	}
+
+
 	return (
 		<div className="w-full max-w-xs">
   			<form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
@@ -91,4 +109,4 @@ const CreateWorkspace: React.FC = () => {
 	)
 }
 
-export default CreateWorkspace
+export default Workspaces

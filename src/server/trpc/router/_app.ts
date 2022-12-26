@@ -4,13 +4,15 @@ import { authRouter } from "./auth";
 import { technologyRouter } from "./technology";
 import { userRouter } from "./user";
 import { workspaceRouter } from "./workspace";
+import { textToSql } from "./apps/textToSql";
 
 export const appRouter = router({
   user: userRouter,
   auth: authRouter,
   technology: technologyRouter,
   workspace: workspaceRouter,
-  app: appsRouter
+  app: appsRouter,
+  textToSql: textToSql
 });
 
 // export type definition of API
