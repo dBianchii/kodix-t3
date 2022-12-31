@@ -6,20 +6,20 @@
       "type": "node-terminal",
       "request": "launch",
       "command": "npm run dev",
-	  "skipFiles": [
-    		"${workspaceRoot}/node_modules/**/*.js",
-    		"<node_internals>/**/*.js"
-		]
+      "skipFiles": [
+        "${workspaceRoot}/node_modules/**/*.js",
+        "<node_internals>/**/*.js"
+      ]
     },
     {
       "name": "Next.js: debug client-side",
       "type": "chrome",
       "request": "launch",
       "url": "http://localhost:3000",
-	  "skipFiles": [
-    		"${workspaceRoot}/node_modules/**/*.js",
-    		"<node_internals>/**/*.js"
-		]
+      "skipFiles": [
+        "${workspaceRoot}/node_modules/**/*.js",
+        "<node_internals>/**/*.js"
+      ]
     },
     {
       "name": "Next.js: debug full stack",
@@ -31,10 +31,10 @@
         "uriFormat": "%s",
         "action": "debugWithChrome"
       },
-	  "skipFiles": [
-    		"${workspaceRoot}/node_modules/**/*.js",
-    		"<node_internals>/**/*.js"
-		]
+      "skipFiles": [
+        "${workspaceRoot}/node_modules/**/*.js",
+        "<node_internals>/**/*.js"
+      ]
     }
   ]
 }

@@ -9,19 +9,22 @@ import "../styles/globals.css";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
-  pageProps: { session, ...pageProps }, ...appProps
+  pageProps: { session, ...pageProps },
+  ...appProps
 }) => {
-	const routesLayoutNotNeeded = ['/signIn', '/newUser'] 
+  const routesLayoutNotNeeded = ["/signIn", "/newUser"];
 
-	const isLayoutNotNeeded = !routesLayoutNotNeeded.includes(appProps.router.pathname);
-    const LayoutComponent = isLayoutNotNeeded ? Layout : React.Fragment;
-  	return (
-		<SessionProvider session={session}>
-			<LayoutComponent>
-				<Component {...pageProps} />
-			</LayoutComponent>
-		</SessionProvider>
-  	);
+  const isLayoutNotNeeded = !routesLayoutNotNeeded.includes(
+    appProps.router.pathname
+  );
+  const LayoutComponent = isLayoutNotNeeded ? Layout : React.Fragment;
+  return (
+    <SessionProvider session={session}>
+      <LayoutComponent>
+        <Component {...pageProps} />
+      </LayoutComponent>
+    </SessionProvider>
+  );
 };
 
 export default trpc.withTRPC(MyApp);

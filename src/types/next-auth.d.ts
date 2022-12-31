@@ -7,7 +7,7 @@ declare module "next-auth" {
   interface Session {
     user?: {
       id: string;
-	  activeWorkspaceId: string
+      activeWorkspaceId: string;
     } & DefaultSession["user"];
   }
 }
