@@ -8,7 +8,8 @@
     "postinstall": "prisma generate",
     "lint": "next lint",
     "start": "next start",
-    "prismasync": "npx prisma db push $$ npx prisma generate"
+    "prismasync": "npx prisma db push $$ npx prisma generate",
+    "stripe:listen": "stripe listen --forward-to localhost:3000/api/stripe-webhook --latest"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.5",
@@ -20,6 +21,7 @@
     "@trpc/next": "^10.0.0",
     "@trpc/react-query": "^10.0.0",
     "@trpc/server": "^10.0.0",
+    "micro": "^10.0.1",
     "next": "13.0.2",
     "next-auth": "^4.15.1",
     "nodemailer": "^6.8.0",
@@ -27,6 +29,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "^4.7.1",
+    "stripe": "^11.5.0",
     "superjson": "1.9.1",
     "zod": "^3.18.0"
   },

@@ -7,63 +7,6 @@ interface SessionProps {
   session: Session | null;
 }
 
-const WorkspacesTable = ({ session }: SessionProps) => {
-  if (!session?.user?.id) {
-    return <></>;
-  }
-
-  const result = trpc.workspace.getAll.useQuery({
-    userId: session?.user?.id,
-  });
-
-  function handleSwitchWorkspace(workspaceId: string) {
-    const mutation = trpc.user.switchActiveWorkspace.useMutation();
-
-    if (session?.user?.id) mutation.mutate({ workspaceId: workspaceId });
-  }
-
-  const { data } = trpc.user.getOne.useQuery({ userId: session.user.id });
-
-  if (!data) return null;
-
-  return (
-    <table className="mt-4 table-auto">
-      <thead>
-        <tr>
-          <th>Your Workspaces</th>
-        </tr>
-      </thead>
-      <tbody>
-        {result.isLoading ? (
-          <tr>
-            <td>Loading...</td>
-          </tr>
-        ) : (
-          result.data?.map((workspace) => (
-            <tr
-              key={workspace.id}
-              className={
-                workspace.id == data.activeWorkspaceId
-                  ? "border-b border-green-500"
-                  : ""
-              }
-            >
-              <td>
-                <div className="alert-del">
-                  {workspace.name}{" "}
-                  <button onClick={() => handleSwitchWorkspace(workspace.id)}>
-                    {workspace.id == data.activeWorkspaceId ? "X" : "--"}
-                  </button>
-                </div>
-              </td>
-            </tr>
-          ))
-        )}
-      </tbody>
-    </table>
-  );
-};
-
 const Workspaces: React.FC = () => {
   const { data: session } = useSession();
 
@@ -122,6 +65,61 @@ const Workspaces: React.FC = () => {
         <WorkspacesTable {...{ session }} />
       </form>
     </div>
+  );
+};
+
+const WorkspacesTable = ({ session }: SessionProps) => {
+  if (!session?.user?.id) {
+    return <></>;
+  }
+
+  const result = trpc.workspace.getAll.useQuery({
+    userId: session?.user?.id,
+  });
+
+  function handleSwitchWorkspace(workspaceId: string) {
+    const { mutate } = trpc.user.switchActiveWorkspace.useMutation();
+
+    mutate({ workspaceId: workspaceId });
+  }
+
+  return (
+    <table className="mt-4 table-auto">
+      <thead>
+        <tr>
+          <th>Your Workspaces</th>
+        </tr>
+      </thead>
+      <tbody>
+        {result.isLoading ? (
+          <tr>
+            <td>Loading...</td>
+          </tr>
+        ) : (
+          result.data?.map((workspace) => (
+            <tr
+              key={workspace.id}
+              className={
+                workspace.id == session.user?.activeWorkspaceId
+                  ? "border-b border-green-500"
+                  : ""
+              }
+            >
+              <td>
+                <div className="alert-del">
+                  {workspace.name}{" "}
+                  <button onClick={() => handleSwitchWorkspace(workspace.id)}>
+                    {workspace.id == session.user?.activeWorkspaceId
+                      ? "X"
+                      : "--"}
+                  </button>
+                </div>
+              </td>
+            </tr>
+          ))
+        )}
+      </tbody>
+    </table>
   );
 };
 
