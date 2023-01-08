@@ -77,11 +77,7 @@ const WorkspacesTable = ({ session }: SessionProps) => {
     userId: session?.user?.id,
   });
 
-  function handleSwitchWorkspace(workspaceId: string) {
-    const { mutate } = trpc.user.switchActiveWorkspace.useMutation();
-
-    mutate({ workspaceId: workspaceId });
-  }
+  const { mutateAsync } = trpc.user.switchActiveWorkspace.useMutation();
 
   return (
     <table className="mt-4 table-auto">
@@ -108,7 +104,11 @@ const WorkspacesTable = ({ session }: SessionProps) => {
               <td>
                 <div className="alert-del">
                   {workspace.name}{" "}
-                  <button onClick={() => handleSwitchWorkspace(workspace.id)}>
+                  <button
+                    onClick={async () =>
+                      mutateAsync({ workspaceId: workspace.id })
+                    }
+                  >
                     {workspace.id == session.user?.activeWorkspaceId
                       ? "X"
                       : "--"}
