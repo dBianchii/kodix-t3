@@ -28,14 +28,6 @@ const Workspaces: React.FC = () => {
     });
   }
 
-  if (!session) {
-    return (
-      <div>
-        <p>Please login</p>
-      </div>
-    );
-  }
-
   return (
     <div className="w-full max-w-xs">
       <form className="mb-4 rounded bg-white px-8 pt-6 pb-8 shadow-md">
@@ -77,11 +69,7 @@ const WorkspacesTable = ({ session }: SessionProps) => {
     userId: session?.user?.id,
   });
 
-  function handleSwitchWorkspace(workspaceId: string) {
-    const { mutate } = trpc.user.switchActiveWorkspace.useMutation();
-
-    mutate({ workspaceId: workspaceId });
-  }
+  const { mutateAsync } = trpc.user.switchActiveWorkspace.useMutation();
 
   return (
     <table className="mt-4 table-auto">
@@ -101,17 +89,18 @@ const WorkspacesTable = ({ session }: SessionProps) => {
               key={workspace.id}
               className={
                 workspace.id == session.user?.activeWorkspaceId
-                  ? "border-b border-green-500"
+                  ? "bg-gray-200"
                   : ""
               }
             >
               <td>
                 <div className="alert-del">
-                  {workspace.name}{" "}
-                  <button onClick={() => handleSwitchWorkspace(workspace.id)}>
-                    {workspace.id == session.user?.activeWorkspaceId
-                      ? "X"
-                      : "--"}
+                  <button
+                    onClick={async () =>
+                      mutateAsync({ workspaceId: workspace.id })
+                    }
+                  >
+                    {workspace.name}
                   </button>
                 </div>
               </td>
