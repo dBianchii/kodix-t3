@@ -1,10 +1,10 @@
 import type { App } from "@prisma/client";
 import { type NextPage } from "next/types";
 import AppComponent from "../components/App/App";
-import { trpc } from "../utils/trpc";
+import { api } from "../utils/api";
 
 const Apps: NextPage = () => {
-  const data = trpc.app.getInstalledApps.useQuery();
+  const data = api.app.getInstalledApps.useQuery();
   if (data.isLoading) {
     return <div>Loading...</div>;
   }

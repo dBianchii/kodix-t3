@@ -3,11 +3,11 @@ import Head from "next/head";
 
 import { signOut, useSession } from "next-auth/react";
 
-import { trpc } from "../utils/trpc";
+import { api } from "../utils/api";
 import Link from "next/link";
 
 const Home: NextPage = () => {
-  const { data } = trpc.technology.getAll.useQuery();
+  const { data } = api.technology.getAll.useQuery();
 
   return (
     <>
@@ -39,7 +39,7 @@ export default Home;
 const AuthShowcase: React.FC = () => {
   const { data: sessionData } = useSession();
 
-  const { data: secretMessage } = trpc.auth.getSecretMessage.useQuery(
+  const { data: secretMessage } = api.auth.getSecretMessage.useQuery(
     undefined, // no input
     { enabled: sessionData?.user !== undefined }
   );

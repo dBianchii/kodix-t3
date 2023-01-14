@@ -1,8 +1,7 @@
 import { z } from "zod";
-import { trpc } from "../../../utils/trpc";
-import { router, protectedProcedure } from "../trpc";
+import { createTRPCRouter, protectedProcedure } from "../trpc";
 
-export const workspaceRouter = router({
+export const workspaceRouter = createTRPCRouter({
   getAll: protectedProcedure
     .input(z.object({ userId: z.string().cuid() }).nullish())
     .query(async ({ ctx, input }) => {

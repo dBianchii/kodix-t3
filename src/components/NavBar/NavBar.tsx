@@ -122,6 +122,7 @@ export default function Example() {
                                 <div key={item.name} className="flow-root">
                                   <button
                                     className="-m-3 flex items-center rounded-md p-3 text-base font-medium text-gray-900 hover:bg-gray-600"
+                                    // eslint-disable-next-line @typescript-eslint/no-misused-promises
                                     onClick={() => signOut()}
                                   >
                                     <item.icon

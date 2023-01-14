@@ -1,8 +1,8 @@
 import { string, z } from "zod";
 
-import { router, publicProcedure, protectedProcedure } from "../trpc";
+import { createTRPCRouter, publicProcedure, protectedProcedure } from "../trpc";
 
-export const userRouter = router({
+export const userRouter = createTRPCRouter({
   getAll: publicProcedure.query(async ({ ctx }) => {
     const user = await ctx.prisma.user.findMany();
     if (!user) throw new Error("No Users Found");

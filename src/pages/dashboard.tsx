@@ -3,7 +3,7 @@ import { unstable_getServerSession } from "next-auth";
 import { signOut } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { trpc } from "../utils/trpc";
+import { api } from "../utils/api";
 import { authOptions } from "./api/auth/[...nextauth]";
 
 const SignoutButton = () => {
@@ -21,7 +21,7 @@ const SignoutButton = () => {
 
 const UpgradeButton = () => {
   const { mutateAsync: createCheckoutSession } =
-    trpc.stripe.createCheckoutSession.useMutation();
+    api.stripe.createCheckoutSession.useMutation();
   const { push } = useRouter();
   return (
     <button
@@ -40,7 +40,7 @@ const UpgradeButton = () => {
 
 const ManageBillingButton = () => {
   const { mutateAsync: createBillingPortalSession } =
-    trpc.stripe.createBillingPortalSession.useMutation();
+    api.stripe.createBillingPortalSession.useMutation();
   const { push } = useRouter();
   return (
     <button
@@ -59,7 +59,7 @@ const ManageBillingButton = () => {
 
 const Dashboard: NextPage = () => {
   const { data: subscriptionStatus, isLoading } =
-    trpc.user.subscriptionStatus.useQuery();
+    api.user.subscriptionStatus.useQuery();
 
   return (
     <>

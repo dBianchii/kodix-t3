@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { env } from "../../env/server.mjs";
-import { prisma } from "../../server/db/client";
+import { prisma } from "../../server/db";
 import type Stripe from "stripe";
 import { buffer } from "micro";
 import {
@@ -100,7 +100,7 @@ export default async function handler(
 
       res.json({ received: true });
     } catch (err) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/restrict-template-expressions, @typescript-eslint/no-unsafe-member-access
       res.status(400).send(`Webhook Error: ${(err as any).message}`);
       return;
     }

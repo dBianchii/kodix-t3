@@ -1,7 +1,7 @@
 import type { Session } from "next-auth";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
-import { trpc } from "../utils/trpc";
+import { api } from "../utils/api";
 
 interface SessionProps {
   session: Session | null;
@@ -12,8 +12,8 @@ const Workspaces: React.FC = () => {
 
   const [workspaceName, setWorkspaceName] = useState("");
 
-  const ctx = trpc.useContext();
-  const { mutate } = trpc.workspace.create.useMutation({
+  const ctx = api.useContext();
+  const { mutate } = api.workspace.create.useMutation({
     onSuccess: () => {
       ctx.workspace.getAll.invalidate();
     },
@@ -65,11 +65,11 @@ const WorkspacesTable = ({ session }: SessionProps) => {
     return <></>;
   }
 
-  const result = trpc.workspace.getAll.useQuery({
+  const result = api.workspace.getAll.useQuery({
     userId: session?.user?.id,
   });
 
-  const { mutateAsync } = trpc.user.switchActiveWorkspace.useMutation();
+  const { mutateAsync } = api.user.switchActiveWorkspace.useMutation();
 
   return (
     <table className="mt-4 table-auto">
