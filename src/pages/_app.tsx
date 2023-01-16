@@ -4,6 +4,7 @@ import { SessionProvider } from "next-auth/react";
 import Layout from "../components/Layout";
 import { api } from "../utils/api";
 import React from "react";
+import { ChakraProvider } from "@chakra-ui/react";
 
 import "../styles/globals.css";
 
@@ -15,13 +16,15 @@ const MyApp: AppType<{ session: Session | null }> = ({
   const routesLayoutNotNeeded = ["/signIn", "/newUser"];
 
   const isLayoutNotNeeded = !routesLayoutNotNeeded.includes(
-    appProps.router.pathname
+    (appProps.router as { pathname: string }).pathname
   );
   const LayoutComponent = isLayoutNotNeeded ? Layout : React.Fragment;
   return (
     <SessionProvider session={session}>
       <LayoutComponent>
-        <Component {...pageProps} />
+        <ChakraProvider>
+          <Component {...pageProps} />
+        </ChakraProvider>
       </LayoutComponent>
     </SessionProvider>
   );
