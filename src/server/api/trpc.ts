@@ -53,9 +53,13 @@ export const createTRPCContext = async (opts: CreateNextContextOptions) => {
   // Get the session from the server using the unstable_getServerSession wrapper function
   const session = await getServerAuthSession({ req, res });
 
-  return createInnerTRPCContext({
-    session,
-  });
+  return {
+    ...createInnerTRPCContext({
+      session,
+    }),
+    req,
+    res,
+  };
 };
 
 /**

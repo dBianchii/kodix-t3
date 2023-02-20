@@ -1,9 +1,8 @@
 import type { App } from "@prisma/client";
-import { type NextPage } from "next/types";
 import AppComponent from "../components/App/App";
 import { api } from "../utils/api";
 
-const Apps: NextPage = () => {
+export default function Apps() {
   const data = api.app.getInstalledApps.useQuery();
   if (data.isLoading) {
     return <div>Loading...</div>;
@@ -28,6 +27,4 @@ const Apps: NextPage = () => {
       </div>
     </div>
   );
-};
-
-export default Apps;
+}

@@ -48,30 +48,6 @@ model Technology {
 	name String
 }
 
-model StripeEvent {
-  id               String   @id @unique
-  api_version      String?
-  data             Json
-  request          Json?
-  type             String
-  object           String
-  account          String?
-  created          DateTime
-  livemode         Boolean
-  pending_webhooks Int
-}
-
-// https://stripe.com/docs/api/subscriptions/object#subscription_object-status
-enum StripeSubscriptionStatus {
-  incomplete
-  incomplete_expired
-  trialing
-  active
-  past_due
-  canceled
-  unpaid
-}
-
 // Necessary for Next auth
 model Account {
 	id                String  @id @default(cuid())
@@ -109,9 +85,6 @@ model User {
 	sessions          Session[]
 	workspaces        Workspace[]
 	activeWorkspaceId String?
-	stripeCustomerId         String?
-  stripeSubscriptionId     String?
-  stripeSubscriptionStatus StripeSubscriptionStatus? // status of user's subscription to determine access to services
 }
 
 model VerificationToken {

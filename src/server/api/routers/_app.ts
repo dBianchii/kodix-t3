@@ -5,7 +5,6 @@ import { technologyRouter } from "./technology";
 import { userRouter } from "./user";
 import { workspaceRouter } from "./workspace";
 import { textToSql } from "./apps/textToSql";
-import { stripeRouter } from "./stripe";
 
 export const appRouter = createTRPCRouter({
   user: userRouter,
@@ -14,7 +13,6 @@ export const appRouter = createTRPCRouter({
   workspace: workspaceRouter,
   app: appsRouter,
   textToSql: textToSql,
-  stripe: stripeRouter,
 });
 
 // export type definition of API

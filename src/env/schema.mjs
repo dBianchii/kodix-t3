@@ -27,12 +27,6 @@ export const serverSchema = z.object({
   EMAIL_SERVER_PORT: z.string(),
   EMAIL_FROM: z.string(),
   OPENAI_API_KEY: z.string(),
-
-  //Stripe
-  STRIPE_PK: z.string(),
-  STRIPE_SK: z.string(),
-  STRIPE_PRICE_ID: z.string(),
-  STRIPE_WEBHOOK_SECRET: z.string(),
 });
 
 /**

@@ -1,9 +1,8 @@
 import type { App } from "@prisma/client";
-import { type NextPage } from "next/types";
 import AppComponent from "../components/App/App";
 import { api } from "../utils/api";
 
-const Marketplace: NextPage = () => {
+export default function Marketplace() {
   const data = api.app.getAll.useQuery();
   if (data.isLoading) {
     return <div>Loading...</div>;
@@ -28,6 +27,4 @@ const Marketplace: NextPage = () => {
       </div>
     </div>
   );
-};
-
-export default Marketplace;
+}
