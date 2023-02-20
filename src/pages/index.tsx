@@ -5,8 +5,6 @@ import Link from "next/link";
 import SEO from "../components/SEO";
 
 const Home = () => {
-  const { data } = api.technology.getAll.useQuery();
-
   return (
     <>
       <SEO title={"Kodix"} description={"Kodix - Software on demand"}></SEO>
@@ -15,9 +13,6 @@ const Home = () => {
           Welcome to Kodix
         </h1>
         <div className="flex flex-col items-center gap-2">
-          <p className="text-2xl text-white">
-            {data?.map((tech) => tech.name).join(", ")}
-          </p>
           <AuthShowcase />
         </div>
       </div>
@@ -30,7 +25,10 @@ export default Home;
 const AuthShowcase: React.FC = () => {
   const { data: sessionData } = useSession();
 
-  const { data: secretMessage } = api.auth.getSecretMessage.useQuery();
+  const { data: secretMessage } = api.auth.getSecretMessage.useQuery(
+    undefined, // no input
+    { enabled: sessionData?.user !== undefined }
+  );
 
   return (
     <div className="flex flex-col items-center justify-center gap-4">

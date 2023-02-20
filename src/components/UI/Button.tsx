@@ -2,10 +2,11 @@ import { cva, type VariantProps } from "class-variance-authority";
 import classNames from "classnames";
 import type { ButtonHTMLAttributes } from "react";
 
-const buttoncva = cva("rounded-md relative text-white", {
+const buttoncva = cva("rounded-md relative text-white font-medium", {
   variants: {
     intent: {
       primary: "bg-indigo-600 hover:bg-indigo-700",
+      secondary: "bg-gray-600 hover:bg-gray-700",
       danger: "bg-red-500 hover:bg-red-600",
       skeleton: "animate-pulse bg-gray-200 rounded-full dark:bg-gray-700 w-16",
     },
@@ -104,6 +105,7 @@ const Button = ({
   fullWidth,
   disabled,
   loading,
+  onClick,
 }: ButtonProps) => {
   return (
     <>
@@ -112,6 +114,7 @@ const Button = ({
       ) : (
         <button
           className={buttoncva({ intent, modifier, size, fullWidth, disabled })}
+          onClick={onClick}
         >
           <span
             className={classNames(
