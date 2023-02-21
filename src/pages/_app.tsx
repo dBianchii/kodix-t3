@@ -1,12 +1,13 @@
 import { type AppType } from "next/app";
 import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
-import Layout from "../components/Layout";
 import { api } from "../utils/api";
+import type { ReactNode } from "react";
 import React from "react";
 import { ChakraProvider } from "@chakra-ui/react";
 
 import "../styles/globals.css";
+import NavBar from "../components/NavBar/NavBar";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -21,13 +22,22 @@ const MyApp: AppType<{ session: Session | null }> = ({
   const LayoutComponent = isLayoutNotNeeded ? Layout : React.Fragment;
   return (
     <SessionProvider session={session}>
-      <LayoutComponent>
-        <ChakraProvider>
+      <ChakraProvider>
+        <LayoutComponent>
           <Component {...pageProps} />
-        </ChakraProvider>
-      </LayoutComponent>
+        </LayoutComponent>
+      </ChakraProvider>
     </SessionProvider>
   );
 };
+
+function Layout({ children }: { children?: ReactNode }) {
+  return (
+    <>
+      <NavBar />
+      {children}
+    </>
+  );
+}
 
 export default api.withTRPC(MyApp);
