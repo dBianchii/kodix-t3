@@ -8,6 +8,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
+import Button from "@ui/Button";
 
 const profilePic = [
   {
@@ -75,13 +76,15 @@ export default function Example() {
                           "group inline-flex items-center rounded-md bg-gray-800 text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                         )}
                       >
-                        <Image
-                          className="h-10 w-10 rounded-full"
-                          src={image}
-                          alt="Rounded avatar"
-                          width={40}
-                          height={40}
-                        />
+                        <div className="bg-azulVioleta w-28 rounded-md bg-gray-600 py-1 px-2">
+                          <Image
+                            className="h-10 w-10 rounded-full"
+                            src={image}
+                            alt="Rounded avatar"
+                            width={40}
+                            height={40}
+                          />
+                        </div>
                       </Popover.Button>
 
                       <Transition
@@ -93,11 +96,11 @@ export default function Example() {
                         leaveFrom="opacity-100 translate-y-0"
                         leaveTo="opacity-0 translate-y-1"
                       >
-                        <Popover.Panel className="absolute z-10 -ml-4 mt-3 w-screen max-w-md transform px-2 sm:px-0 lg:left-1/2 lg:ml-0 lg:-translate-x-1/2">
+                        <Popover.Panel className="absolute z-10 ml-4 mt-3 w-72 max-w-sm transform px-2 sm:px-0 lg:left-1/2 lg:ml-0 lg:-translate-x-1/2">
                           <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
-                            <div className="relative grid gap-6 bg-gray-700 px-5 py-6 sm:gap-8 sm:p-8">
+                            <div className="relative grid gap-6 bg-gray-800 px-5 py-6 sm:gap-8 sm:p-8">
                               {profilePic.map((item) => (
-                                <a
+                                <Link
                                   key={item.name}
                                   href={item.href}
                                   className="-m-3 flex items-start rounded-lg p-3 hover:bg-gray-600"
@@ -114,7 +117,7 @@ export default function Example() {
                                       {item.description}
                                     </p>
                                   </div>
-                                </a>
+                                </Link>
                               ))}
                             </div>
                             <div className="space-y-6 bg-gray-700 px-5 py-5 sm:flex sm:space-y-0 sm:space-x-10 sm:px-8">
@@ -151,11 +154,10 @@ export default function Example() {
                 >
                   Sign in
                 </Link>
-                <Link
-                  href="/signIn"
-                  className="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
-                >
-                  Sign up
+                <Link href="/signIn">
+                  <Button intent="primary" className="mx-4">
+                    Sign up
+                  </Button>
                 </Link>
               </div>
             )}

@@ -106,6 +106,7 @@ const Button = ({
   disabled,
   loading,
   onClick,
+  className,
 }: ButtonProps) => {
   return (
     <>
@@ -113,7 +114,13 @@ const Button = ({
         <div className={buttoncva({ intent })}></div>
       ) : (
         <button
-          className={buttoncva({ intent, modifier, size, fullWidth, disabled })}
+          className={`${buttoncva({
+            intent,
+            modifier,
+            size,
+            fullWidth,
+            disabled,
+          })} ${className ? className : ""}`}
           onClick={onClick}
         >
           <span
