@@ -1,14 +1,26 @@
+import { TRPCError } from "@trpc/server";
+import { getHTTPStatusCodeFromError } from "@trpc/server/http";
 import { type NextApiRequest, type NextApiResponse } from "next";
-import { prisma } from "../../server/db";
+import { appRouter } from "../../server/api/root";
+import { createTRPCContext } from "../../server/api/trpc";
 
 const userByIdHandler = async (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.method !== "GET") {
-    return res.status(405).end();
+  // Create context and caller
+  const ctx = await createTRPCContext({ req, res });
+  const caller = appRouter.createCaller(ctx);
+  try {
+    const user = await caller.user.getAll();
+    res.status(200).json(user);
+  } catch (cause) {
+    if (cause instanceof TRPCError) {
+      // An error from tRPC occured
+      const httpCode = getHTTPStatusCodeFromError(cause);
+      return res.status(httpCode).json(cause);
+    }
+    // Another error occured
+    console.error(cause);
+    res.status(500).json({ message: "Internal server error" });
   }
-
-  const examples = await prisma.user.findMany({});
-
-  res.status(200).json(examples);
 };
 
 export default userByIdHandler;
