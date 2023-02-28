@@ -1,3 +1,4 @@
+import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 
@@ -42,6 +43,12 @@ export const workspaceRouter = createTRPCRouter({
         },
       });
 
+      if (!workspace)
+        throw new TRPCError({
+          message: "No Workspace Found",
+          code: "NOT_FOUND",
+        });
+
       return workspace;
     }),
   update: protectedProcedure
@@ -57,7 +64,6 @@ export const workspaceRouter = createTRPCRouter({
           name: input.workspaceName,
         },
       });
-
       return workspace;
     }),
 });

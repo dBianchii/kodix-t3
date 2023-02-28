@@ -8,11 +8,11 @@ const Home = () => {
   return (
     <>
       <SEO title={"Kodix"} description={"Kodix - Software on demand"}></SEO>
-      <div className="flex flex-col items-center justify-center gap-12 px-4 py-16">
+      <div className="flex h-144 flex-col items-center justify-center gap-12 bg-slate-800 px-4 py-16">
         <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
           Welcome to Kodix
         </h1>
-        <div className="flex flex-col items-center gap-2">
+        <div className="flex flex-col items-center">
           <AuthShowcase />
         </div>
       </div>
