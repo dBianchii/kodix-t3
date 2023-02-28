@@ -1,5 +1,14 @@
-import type { NextApiRequest, NextApiResponse } from "next";
+import { type NextApiRequest, type NextApiResponse } from "next";
+import { prisma } from "../../server/db";
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
-  res.status(200).json({ name: "This is a secret message from Kodix" });
-}
+const userByIdHandler = async (req: NextApiRequest, res: NextApiResponse) => {
+  if (req.method !== "GET") {
+    return res.status(405).end();
+  }
+
+  const examples = await prisma.user.findMany({});
+
+  res.status(200).json(examples);
+};
+
+export default userByIdHandler;
